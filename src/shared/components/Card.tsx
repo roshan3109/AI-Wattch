@@ -13,7 +13,7 @@ export const Card: React.FC<CardProps> = ({
   className = "",
   padding = "md",
   shadow = "soft",
-  onClick,
+
 }) => {
   const paddingClasses = {
     sm: "p-3",

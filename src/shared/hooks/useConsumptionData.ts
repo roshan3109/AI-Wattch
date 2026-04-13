@@ -3,7 +3,7 @@ import { ConsumptionByPlatform } from "../types";
 import { sendToBackground, addMessageListener } from "../../core/api";
 import { MESSAGE_TYPES } from "../../constants";
 import { defaultConsumptionByPlatform } from "../../shared/utils/defaults";
-import { useStorageObserver } from "./useStorageObserver";
+
 import { useCurrentPlatform } from "./useCurrentPlatform";
 import { useSettings } from "./useSettings";
 
@@ -23,7 +23,7 @@ export const useConsumptionData = () => {
   const handleMessage = useCallback(
     (
       message: any,
-      sender: chrome.runtime.MessageSender,
+      _sender: chrome.runtime.MessageSender,
       sendResponse?: (response?: any) => void
     ) => {
       console.log("AI Wattch: Message received in hook", message);

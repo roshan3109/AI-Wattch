@@ -116,6 +116,7 @@ export const getTodaySessionData = async (): Promise<{
   currentSession?: {
     chatgpt?: QueryMetric;
     claude?: QueryMetric;
+    gemini?: QueryMetric;
   } | null;
 }> => {
   const sessionData = await loadSessionData();
@@ -141,6 +142,7 @@ export const getCurrentSessionData = async (): Promise<
   | {
       chatgpt?: QueryMetric;
       claude?: QueryMetric;
+      gemini?: QueryMetric;
     }
   | undefined
 > => {
@@ -227,6 +229,18 @@ export const clearOldSessionData = async (
       );
       if (claudeDateKey < cutoffKey) {
         delete sessionData.currentSession.claude;
+      } else {
+        hasValidSession = true;
+      }
+    }
+
+    // Check gemini session
+    if (sessionData.currentSession.gemini) {
+      const geminiDateKey = getDateKey(
+        sessionData.currentSession.gemini.startTime
+      );
+      if (geminiDateKey < cutoffKey) {
+        delete sessionData.currentSession.gemini;
       } else {
         hasValidSession = true;
       }

@@ -3,22 +3,24 @@ import React from "react";
 import { WaterDropIcon } from "../../../icons/WaterDropIcon";
 import { LightBulbIcon } from "../../../icons/LightBulbIcon";
 import { SmartphoneIcon } from "../../../icons/SmartphoneIcon";
-import { ConsumptionByPlatform, PlatformDetails } from "../../../shared/types";
+import { ConsumptionByPlatform } from "../../../shared/types";
 
 export const ImpactCard: React.FC<{
   consumptionData: ConsumptionByPlatform;
-  platformDetails: PlatformDetails;
-}> = ({ consumptionData, platformDetails }) => {
+}> = ({ consumptionData }) => {
   // Calculate total impact metrics from both platforms
   const totalWaterConsumption =
     (consumptionData.chatgptConsumption?.metrics.waterConsumption || 0) +
-    (consumptionData.claudeConsumption?.metrics.waterConsumption || 0);
+    (consumptionData.claudeConsumption?.metrics.waterConsumption || 0) +
+    (consumptionData.geminiConsumption?.metrics.waterConsumption || 0);
   const totalLightBulbMinutes =
     (consumptionData.chatgptConsumption?.metrics.lightBulbMinutes || 0) +
-    (consumptionData.claudeConsumption?.metrics.lightBulbMinutes || 0);
+    (consumptionData.claudeConsumption?.metrics.lightBulbMinutes || 0) +
+    (consumptionData.geminiConsumption?.metrics.lightBulbMinutes || 0);
   const totalSmartphoneCharges =
     (consumptionData.chatgptConsumption?.metrics.smartphoneCharges || 0) +
-    (consumptionData.claudeConsumption?.metrics.smartphoneCharges || 0);
+    (consumptionData.claudeConsumption?.metrics.smartphoneCharges || 0) +
+    (consumptionData.geminiConsumption?.metrics.smartphoneCharges || 0);
 
   const waterConsumption =
     totalWaterConsumption > 1000

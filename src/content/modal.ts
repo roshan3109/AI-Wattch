@@ -75,7 +75,7 @@ const createStyledShadowRoot = async (
     await preloadFonts(MODAL_CONFIG.fontWeights);
 
     // Create and apply component stylesheet
-    const componentSheet = new CSSStyleSheet();
+    // Create and apply component stylesheet
     // await componentSheet.replace(styles);
 
     // shadowRoot.adoptedStyleSheets = [componentSheet];

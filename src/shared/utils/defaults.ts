@@ -17,8 +17,10 @@ export const defaultConsumption: Consumption = {
 export const defaultConsumptionByPlatform: ConsumptionByPlatform = {
   chatgptConsumption: defaultConsumption,
   claudeConsumption: defaultConsumption,
+  geminiConsumption: defaultConsumption,
   currentConsumption: {
     chatgpt: defaultConsumption,
     claude: defaultConsumption,
+    gemini: defaultConsumption,
   },
 };

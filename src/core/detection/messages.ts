@@ -36,7 +36,10 @@ const addEnterKeyEventListeners = (platform: SupportedPlatform) => {
   const inputElement =
     platform === "chatgpt"
       ? document.getElementById("prompt-textarea")
-      : document.querySelector('div.ProseMirror[contenteditable="true"]');
+      : platform === "gemini"
+        ? document.querySelector("rich-textarea") ||
+          document.querySelector('div[contenteditable="true"]')
+        : document.querySelector('div.ProseMirror[contenteditable="true"]');
 
   if (
     !inputElement ||
@@ -82,6 +85,17 @@ const addMessageSendEventListeners = (e: Node, platform: SupportedPlatform) => {
       btn.setAttribute("data-ai-wattch-send-listener-attached", "true");
       btn.addEventListener("click", setStartTime);
     }
+  } else if (platform === "gemini") {
+    // Gemini send button
+    const btn = document.querySelector('button[aria-label="Send message"]');
+    if (
+      btn &&
+      btn instanceof HTMLElement &&
+      !btn.getAttribute("data-ai-wattch-send-listener-attached")
+    ) {
+      btn.setAttribute("data-ai-wattch-send-listener-attached", "true");
+      btn.addEventListener("click", setStartTime);
+    }
   }
 };
 
@@ -105,6 +119,17 @@ const setFirstTokenTime = (e: Node, platform: SupportedPlatform) => {
     // if (!hasStarted) {
     //   setStartTime();
     // }
+    firstTokenTime = Date.now() / 1000;
+  } else if (
+    platform === "gemini" &&
+    e instanceof HTMLElement &&
+    (e.tagName === "MODEL-RESPONSE" ||
+      e.querySelector("model-response") !== null ||
+      e.className.includes("model-response"))
+  ) {
+    if (!hasStarted) {
+      setStartTime();
+    }
     firstTokenTime = Date.now() / 1000;
   }
 };
@@ -158,7 +183,12 @@ const checkIfResponseCompleted = (node: Node, platform: SupportedPlatform) => {
     return true;
   }
 
-  if (platform === "chatgpt") {
+  if (platform === "gemini") {
+    // Typically in Gemini, generating stops when the send button is re-enabled/visible again,
+    // or the 'stop generating' square button disappears. Checking for a send button present and not disabled.
+    const sendBtn = document.querySelector('button[aria-label="Send message"]');
+    return !!sendBtn && !sendBtn.hasAttribute("disabled");
+  } else if (platform === "chatgpt") {
     return (
       node.getAttribute("data-testid") === "composer-speech-button-container" &&
       (node.children[0].getAttribute("data-state") === "closed" ||
@@ -194,7 +224,10 @@ const ProcessResponse = (platform: SupportedPlatform) => {
   };
   if (platform === "chatgpt") {
     console.log("DEBUG: Came here 5");
-    const allNodes = document.querySelectorAll("article");
+    const allNodes = document.querySelectorAll<HTMLElement>(
+      "div section[data-turn='assistant'], div section[data-turn='user']",
+    );
+    console.log(allNodes, allNodes.length, "adojcnadvbojdbvo");
 
     if (allNodes.length !== 0) {
       const outputNode = allNodes[allNodes.length - 1];
@@ -255,6 +288,37 @@ const ProcessResponse = (platform: SupportedPlatform) => {
       sendObject.inputTokens = inputTokens;
       sendObject.inputTextLength = inputText.length;
       sendObject.outputTextLength = outputText.length;
+
+      return sendObject;
+    }
+  } else if (platform === "gemini") {
+    const allOutputNodes = document.querySelectorAll(
+      "model-response, message-content",
+    );
+    const allInputNodes = document.querySelectorAll("user-query");
+
+    if (allOutputNodes.length !== 0 && allInputNodes.length !== 0) {
+      const outputNode = allOutputNodes[
+        allOutputNodes.length - 1
+      ] as HTMLElement;
+      const inputNode = allInputNodes[allInputNodes.length - 1] as HTMLElement;
+
+      const outputText = outputNode.innerText || "";
+      const inputText = inputNode.innerText || "";
+
+      const outputTokens = estimateTokens(outputText);
+      const inputTokens = estimateTokens(inputText);
+
+      sendObject.outputTokens = outputTokens;
+      sendObject.inputTokens = inputTokens;
+      sendObject.inputTextLength = inputText.length;
+      sendObject.outputTextLength = outputText.length;
+
+      console.table({
+        ...sendObject,
+        outputText,
+        inputText,
+      });
 
       return sendObject;
     }
@@ -333,10 +397,3 @@ export const createMessageObserver = (
 
   return observer;
 };
-
-// const checkIsMessage = (node: Node) => {
-//   if (node.nodeType === 1) {
-//     const element = node as HTMLElement;
-//     console.log("👁️ AI Wattch: Processing element", element.tagName);
-//   }
-// };

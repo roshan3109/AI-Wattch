@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 
-import { Card } from "../../shared/components/Card";
+
 import { ChevronDownIcon } from "../../icons/ChevronDownIcon";
 import { ArrowLeftIcon } from "../../icons/ArrowLeftIcon";
 import TipsIcon from "../../icons/TipsIcon";
