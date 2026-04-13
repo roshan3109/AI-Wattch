@@ -69,6 +69,7 @@ export interface SessionData {
   currentSession?: {
     chatgpt?: QueryMetric;
     claude?: QueryMetric;
+    gemini?: QueryMetric;
   }; // Latest session for today
   lastUpdated: number;
 }
@@ -108,9 +109,11 @@ export interface Consumption {
 export interface ConsumptionByPlatform {
   chatgptConsumption: Consumption;
   claudeConsumption: Consumption;
+  geminiConsumption: Consumption;
   currentConsumption: {
     chatgpt: Consumption;
     claude: Consumption;
+    gemini: Consumption;
   };
 }
 
@@ -131,7 +134,7 @@ export interface UserSettings {
   allowedToTrack?: boolean;
 }
 
-export type SupportedPlatform = "chatgpt" | "claude";
+export type SupportedPlatform = "chatgpt" | "claude" | "gemini";
 
 export interface ExtensionMessage {
   type:

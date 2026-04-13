@@ -7,57 +7,51 @@ import {
   formatEmissions,
   formatEnergy,
 } from "../../../shared/utils/formatting";
-import { ConsumptionByPlatform, PlatformDetails } from "../../../shared/types";
+import { ConsumptionByPlatform } from "../../../shared/types";
 import { InfoIcon } from "lucide-react";
 import { ChevronDownIcon, ChevronIcon } from "../../../icons";
 import SemiCircleChart from "../../../shared/components/SemiCircleChart";
 import { ImpactCard } from "./ImpactCard";
 import Tooltip from "../../../shared/components/Tooltip";
+import { GeminiLogo } from "../../../icons/GeminiLogo";
 
 export const SessionsCard: React.FC<{
   consumptionData: ConsumptionByPlatform;
-  platformDetails: PlatformDetails;
   handleShowTips: (e: any) => void;
   isExpanded: boolean;
   setIsExpanded: (value: boolean) => void;
-}> = ({
-  consumptionData,
-  platformDetails,
-  handleShowTips,
-  isExpanded,
-  setIsExpanded,
-}) => {
+}> = ({ consumptionData, handleShowTips, isExpanded, setIsExpanded }) => {
   const [activeTab, setActiveTab] = useState<"emissions" | "energy">("energy");
-
-  const { currentModel } = platformDetails;
-
-  const consumption =
-    currentModel?.platform === "chatgpt"
-      ? consumptionData.chatgptConsumption
-      : consumptionData.claudeConsumption;
 
   const getRadialData = () => {
     const chatgptEnergy = consumptionData.chatgptConsumption.energyKWh || 0;
     const claudeEnergy = consumptionData.claudeConsumption.energyKWh || 0;
+    const geminiEnergy = consumptionData.geminiConsumption.energyKWh || 0;
     const chatgptEmission =
       consumptionData.chatgptConsumption.carbonEmissionsKgCO2e || 0;
     const claudeEmission =
       consumptionData.claudeConsumption.carbonEmissionsKgCO2e || 0;
+    const geminiEmission =
+      consumptionData.geminiConsumption.carbonEmissionsKgCO2e || 0;
 
     const energy = {
-      total: formatEnergy(chatgptEnergy + claudeEnergy),
+      total: formatEnergy(chatgptEnergy + claudeEnergy + geminiEnergy),
       chatgpt: formatEnergy(chatgptEnergy),
       claude: formatEnergy(claudeEnergy),
+      gemini: formatEnergy(geminiEnergy),
       chatgptRaw: chatgptEnergy,
       claudeRaw: claudeEnergy,
+      geminiRaw: geminiEnergy,
     };
 
     const emissions = {
-      total: formatEmissions(chatgptEmission + claudeEmission),
+      total: formatEmissions(chatgptEmission + claudeEmission + geminiEmission),
       chatgpt: formatEmissions(chatgptEmission),
       claude: formatEmissions(claudeEmission),
+      gemini: formatEmissions(geminiEmission),
       chatgptRaw: chatgptEmission,
       claudeRaw: claudeEmission,
+      geminiRaw: geminiEmission,
     };
 
     return activeTab === "emissions" ? emissions : energy;
@@ -147,6 +141,10 @@ export const SessionsCard: React.FC<{
                     value: +consumptionDataRadial.claudeRaw,
                     color: "#D97757",
                   },
+                  {
+                    value: +consumptionDataRadial.geminiRaw,
+                    color: "#4187F3",
+                  },
                 ]}
               />
               <div
@@ -231,12 +229,29 @@ export const SessionsCard: React.FC<{
                 </span>
               </div>
             ) : null}
+
+            {+consumptionDataRadial.gemini.value > 0 ? (
+              <div key={"gemini"} className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <div
+                    className={`w-[5px] h-[5px]  rounded-full bg-[#4187F3]`}
+                  ></div>
+
+                  <GeminiLogo size={13} />
+
+                  <span className="text-xs text-grey-600">Gemini</span>
+                </div>
+                <span className="text-sm font-semibold text-obsidian">
+                  {consumptionDataRadial.gemini.value}{" "}
+                  <span className="text-10 text-grey-600">
+                    {consumptionDataRadial.gemini.unit}
+                  </span>
+                </span>
+              </div>
+            ) : null}
           </div>
 
-          <ImpactCard
-            consumptionData={consumptionData}
-            platformDetails={platformDetails}
-          />
+          <ImpactCard consumptionData={consumptionData} />
 
           <button
             onClick={handleShowTips}

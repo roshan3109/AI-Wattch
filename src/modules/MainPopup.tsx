@@ -11,7 +11,6 @@ import { SettingsModal } from "./settings/SettingsModal";
 // import "../index.css";
 
 export const Popup: React.FC = () => {
-  const [key, setKey] = useState(1);
   const [currentView, setCurrentView] = useState<
     "welcome" | "dashboard" | "tips"
   >("welcome");
@@ -107,7 +106,7 @@ export const Popup: React.FC = () => {
     <>
       <div className="modal-content" {...draggableProps}>
         <Layout
-          key={key}
+          key={1}
           setShowSettings={setShowSettings}
           showSettings={showSettings}
           showShareFeedbackModal={showShareFeedbackModal}

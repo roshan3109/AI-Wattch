@@ -92,6 +92,7 @@ function toConsumptionByPlatform(data: {
   currentSession?: {
     chatgpt?: QueryMetric;
     claude?: QueryMetric;
+    gemini?: QueryMetric;
   } | null;
 }): ConsumptionByPlatform {
   const sum = <T extends number | undefined>(
@@ -125,9 +126,11 @@ function toConsumptionByPlatform(data: {
   return {
     chatgptConsumption: createConsumption(sessionsByPlatform("chatgpt")),
     claudeConsumption: createConsumption(sessionsByPlatform("claude")),
+    geminiConsumption: createConsumption(sessionsByPlatform("gemini")),
     currentConsumption: {
       chatgpt: createCurrentConsumption(data.currentSession?.chatgpt),
       claude: createCurrentConsumption(data.currentSession?.claude),
+      gemini: createCurrentConsumption(data.currentSession?.gemini),
     },
   };
 }
@@ -258,25 +261,7 @@ const handleMessage = async (
   }
 };
 
-// const waitForDocumentReady = async (tabId: number): Promise<void> => {
-//   await new Promise<void>((resolve) => {
-//     const check = async () => {
-//       const [{ result: readyState }] = await chrome.scripting.executeScript({
-//         target: { tabId },
-//         func: () => document.readyState,
-//       });
 
-//       console.log("document.readyState", readyState);
-
-//       if (readyState === "complete") {
-//         resolve();
-//       } else {
-//         setTimeout(check, 200);
-//       }
-//     };
-//     check();
-//   });
-// };
 
 // Handle icon clicks
 let openPopupRetry = 0;
@@ -315,9 +300,6 @@ const handleIconClick = async (tab: chrome.tabs.Tab): Promise<void> => {
       openPopupRetry += 1;
       await new Promise((r) => setTimeout(r, 500)); // small delay
       await handleIconClick(tab);
-    } else {
-      // injectNoAccessScript(tab.id);
-
       console.error("AI Watch: Failed to send toggle message:", error);
     }
   }
@@ -369,80 +351,13 @@ initBackground().catch((error) => {
   console.error("AI Watch: Critical initialization error:", error);
 });
 
-// Inject minimal script for unsupported sites (runs in tab context)
-const injectNoAccessScript = async (tabId: number): Promise<void> => {
-  try {
-    await chrome.scripting.executeScript({
-      target: { tabId },
-      func: () => {
-        // This function runs in the tab's context where document is available
-        const showMessage = () => {
-          // Remove any existing notifications
-          const existing = document.querySelector("#ai-watch-notification");
-          if (existing) {
-            existing.remove();
-          }
 
-          // Create and show notification
-          const notification = document.createElement("div");
-          notification.id = "ai-watch-notification";
-          notification.style.cssText = `
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: #f44336;
-            color: white;
-            padding: 16px;
-            border-radius: 8px;
-            z-index: 10000;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            max-width: 300px;
-            font-size: 14px;
-          `;
-          notification.innerHTML = `
-            <div style="display: flex; align-items: center; gap: 8px;">
-              <span>⚠️</span>
-              <div>
-                <strong>AI Wattch</strong><br>
-                <span style="font-size: 12px;">This extension only works on supported AI platforms like ChatGPT and Claude.</span>
-              </div>
-            </div>
-          `;
-
-          document.body.appendChild(notification);
-
-          // Auto-remove after 4 seconds
-          setTimeout(() => {
-            if (notification.parentNode) {
-              notification.parentNode.removeChild(notification);
-            }
-          }, 4000);
-        };
-
-        // Call the function
-        showMessage();
-      },
-    });
-  } catch (error) {
-    console.error("AI Watch: Failed to inject no-access script:", error);
-
-    try {
-      chrome.action.setPopup({
-        tabId: tabId,
-        popup: chrome.runtime.getURL("src/content/noAccess.html"),
-      });
-      chrome.action.openPopup(); // behaves like normal extension popup
-    } catch (e) {
-      console.error("AI Watch: Failed to open notification window:", e);
-    }
-  }
-};
 
 const ALLOWED_DOMAINS = [
   "https://chat.openai.com/*",
   "https://chatgpt.com/*",
   "https://claude.ai/*",
+  "https://gemini.google.com/*",
 ] as const;
 
 const reloadAllowedTabs = async (): Promise<void> => {

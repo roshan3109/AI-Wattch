@@ -81,7 +81,7 @@ const stopMonitoring = () => {
 };
 
 // Listen for messages from background script
-const handleMessage = async (message: any, sender: any, sendResponse: any) => {
+const handleMessage = async (message: any, _sender: any, sendResponse: any) => {
   console.log("AI Wattch: Received message:", message);
 
   if (message.type === MESSAGE_TYPES.TOGGLE_MODAL) {

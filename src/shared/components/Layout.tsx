@@ -97,8 +97,7 @@ import {
   RefreshIcon,
   CloseIcon,
 } from "../../icons";
-import { ShareFeedbackModal } from "../../modules/onboarding/ShareFeedbackModal";
-import { SettingsModal } from "../../modules/settings/SettingsModal";
+
 import Tooltip from "./Tooltip";
 import { resetSessionData } from "../../core";
 import MinimizedIcon from "../../icons/MinimizedIcon";

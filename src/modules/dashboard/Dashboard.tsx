@@ -46,7 +46,6 @@ export const Dashboard: React.FC<{
       >
         <SessionsCard
           consumptionData={consumptionData}
-          platformDetails={platform}
           handleShowTips={handleShowTips}
           isExpanded={isTodaySessionExpanded}
           setIsExpanded={setIsTodaySessionExpanded}

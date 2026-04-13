@@ -21,6 +21,7 @@ import {
 } from "../../core";
 import { detectModel } from "../../core/detection/model";
 import FlagIcon from "../../icons/FlagIcon";
+import { GeminiLogo } from "../../icons/GeminiLogo";
 
 // Custom Select Component
 
@@ -43,7 +44,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
 
   const updateLocalSettings = <K extends keyof UserSettings>(
     key: K,
-    value: UserSettings[K]
+    value: UserSettings[K],
   ) => {
     const newLocalSettings = {
       ...localSettings,
@@ -201,6 +202,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
                 <>
                   {model.platform === "claude" ? (
                     <ClaudeLogo size={13} />
+                  ) : model.platform === "gemini" ? (
+                    <GeminiLogo size={13} />
                   ) : (
                     <GPTLogo fill="#000000" size={13} />
                   )}
@@ -220,6 +223,8 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({ onClose }) => {
                 >
                   {model.platform === "claude" ? (
                     <ClaudeLogo size={13} />
+                  ) : model.platform === "gemini" ? (
+                    <GeminiLogo size={13} />
                   ) : (
                     <GPTLogo fill="#000000" size={13} />
                   )}

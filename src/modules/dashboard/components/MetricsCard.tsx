@@ -14,6 +14,7 @@ import { ChevronDown } from "lucide-react";
 import { useSettings } from "../../../shared/hooks/useSettings";
 import Tooltip from "../../../shared/components/Tooltip";
 import FlagIcon from "../../../icons/FlagIcon";
+import { GeminiLogo } from "../../../icons/GeminiLogo";
 
 export const MetricsCard: React.FC<{
   consumptionData: ConsumptionByPlatform;
@@ -30,7 +31,9 @@ export const MetricsCard: React.FC<{
   const consumption =
     currentModel?.platform === "chatgpt"
       ? consumptionData.currentConsumption.chatgpt
-      : consumptionData.currentConsumption.claude;
+      : currentModel?.platform === "gemini"
+        ? consumptionData.currentConsumption.gemini
+        : consumptionData.currentConsumption.claude;
 
   // console.log("MetricsCard consumption:", consumptionData);
   const { settings } = useSettings();
@@ -51,6 +54,8 @@ export const MetricsCard: React.FC<{
             <GPTLogo size={13} />
           ) : currentPlatform === "claude" ? (
             <ClaudeLogo size={13} />
+          ) : currentPlatform === "gemini" ? (
+            <GeminiLogo size={13} />
           ) : (
             <div className="w-5 h-5 bg-grey-300 rounded"></div>
           )}

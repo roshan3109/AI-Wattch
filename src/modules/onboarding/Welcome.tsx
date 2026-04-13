@@ -31,8 +31,10 @@ const Welcome = ({
       const hasCarbonData = [
         consumptionData.currentConsumption?.chatgpt?.carbonEmissionsKgCO2e,
         consumptionData.currentConsumption?.claude?.carbonEmissionsKgCO2e,
+        consumptionData.currentConsumption?.gemini?.carbonEmissionsKgCO2e,
         consumptionData.chatgptConsumption?.carbonEmissionsKgCO2e,
         consumptionData.claudeConsumption?.carbonEmissionsKgCO2e,
+        consumptionData.geminiConsumption?.carbonEmissionsKgCO2e,
       ].some(Boolean);
 
       if (hasCarbonData && welcomeStep === 2) {

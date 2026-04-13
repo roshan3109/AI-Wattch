@@ -1,6 +1,6 @@
 // Settings storage utilities
 
-import { ModelInfo, UserSettings } from "../../shared/types";
+import { UserSettings } from "../../shared/types";
 import {
   fetchUserLocation,
   GLOBAL_LOCATION,

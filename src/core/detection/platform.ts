@@ -1,6 +1,6 @@
 // Platform detection utilities
 
-export type SupportedPlatform = "chatgpt" | "claude";
+export type SupportedPlatform = "chatgpt" | "claude" | "gemini";
 
 export interface PlatformInfo {
   name: string;
@@ -57,6 +57,19 @@ export const PLATFORM_CONFIGS: Record<SupportedPlatform, PlatformInfo> = {
       baseTokens: 10,
     },
   },
+  gemini: {
+    name: "Gemini",
+    domain: "gemini.google.com",
+    selectors: {
+      messages: ["message-content", "user-query", "model-response"],
+      input: ["rich-textarea", "div.ql-editor", 'div[contenteditable="true"]'],
+      response: ["model-response", "message-content"],
+    },
+    tokenEstimation: {
+      factor: 0.25, // ~4 characters per token
+      baseTokens: 10,
+    },
+  },
 };
 
 // Detect current platform
@@ -65,6 +78,7 @@ export const detectPlatform = (): SupportedPlatform | null => {
 
   if (hostname.includes("chatgpt")) return "chatgpt";
   if (hostname.includes("claude")) return "claude";
+  if (hostname.includes("gemini")) return "gemini";
   return null;
 };
 
