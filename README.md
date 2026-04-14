@@ -9,7 +9,7 @@ Discover how your AI usage impacts the planet. Measure, compare, and optimize yo
 
 ## Project Summary
 
-[AI Wattch](https://antarctica.io/ai-wattch) is an open-source browser extension powered by[Antarctica’s One Token Model (OTM)](https://antarctica.io/research/one-token-model) that estimates the energy use and carbon footprint of end-user interactions with LLM-powered chat interfaces such as ChatGPT and Claude. It combines token-based and time-based estimation, regional infrastructure mapping, and model-specific parameters to deliver transparent, science-backed emissions reporting per session.
+[AI Wattch](https://antarctica.io/ai-wattch) is an open-source browser extension powered by[Antarctica’s One Token Model (OTM)](https://antarctica.io/research/one-token-model) that estimates the energy use and carbon footprint of end-user interactions with LLM-powered chat interfaces such as ChatGPT, Claude and Gemini. It combines token-based and time-based estimation, regional infrastructure mapping, and model-specific parameters to deliver transparent, science-backed emissions reporting per session.
 
 ## Why AI Wattch
 
@@ -20,7 +20,7 @@ Discover how your AI usage impacts the planet. Measure, compare, and optimize yo
 
 ## How it works (high level)
 
-1. The extension parses the page DOM for supported chat UIs (ChatGPT, Claude).
+1. The extension parses the page DOM for supported chat UIs (ChatGPT, Claude and Gemini).
 2. It captures lightweight telemetry (timestamps, token counts, model selection) - never full chat text.
 3. Two estimation approaches run (token-based & time-based). Both can be combined into a hybrid estimate.
 4. Regional factors (PUE, grid carbon intensity) and model-specific hardware stats (TDP, quantization) convert energy → emissions.
@@ -165,6 +165,7 @@ We welcome contributions. Please follow these steps:
 
 - **Claude:** DOM parsing available - use robust selectors and feature flags; test extensively against different Claude UIs.
 - **ChatGPT:** free-tier detection possible via DOM; paid tiers restrict automatic detection - provide a manual model dropdown and clear UX to set model if detection fails.
+- **Claude:** detection possible via dom. In case of failure provide default fallback model
 - **Fallbacks:** assume global average PUE & carbon intensity if location/model cannot be resolved.
 
 ## Example Test Cases (to include under tests/fixtures)
