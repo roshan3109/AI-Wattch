@@ -9,7 +9,7 @@ Discover how your AI usage impacts the planet. Measure, compare, and optimize yo
 
 ## Project Summary
 
-[AI Wattch](https://antarctica.io/ai-wattch) is an open-source browser extension powered by[Antarctica’s One Token Model (OTM)](https://antarctica.io/research/one-token-model) that estimates the energy use and carbon footprint of end-user interactions with LLM-powered chat interfaces such as ChatGPT and Claude. It combines token-based and time-based estimation, regional infrastructure mapping, and model-specific parameters to deliver transparent, science-backed emissions reporting per session.
+[AI Wattch](https://antarctica.io/ai-wattch) is an open-source browser extension powered by[Antarctica’s One Token Model (OTM)](https://antarctica.io/research/one-token-model) that estimates the energy use and carbon footprint of end-user interactions with LLM-powered chat interfaces such as ChatGPT, Claude and Gemini. It combines token-based and time-based estimation, regional infrastructure mapping, and model-specific parameters to deliver transparent, science-backed emissions reporting per session.
 
 ## Why AI Wattch
 
@@ -20,7 +20,7 @@ Discover how your AI usage impacts the planet. Measure, compare, and optimize yo
 
 ## How it works (high level)
 
-1. The extension parses the page DOM for supported chat UIs (ChatGPT, Claude).
+1. The extension parses the page DOM for supported chat UIs (ChatGPT, Claude and Gemini).
 2. It captures lightweight telemetry (timestamps, token counts, model selection) - never full chat text.
 3. Two estimation approaches run (token-based & time-based). Both can be combined into a hybrid estimate.
 4. Regional factors (PUE, grid carbon intensity) and model-specific hardware stats (TDP, quantization) convert energy → emissions.
