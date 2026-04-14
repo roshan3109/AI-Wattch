@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 
-
 import { ChevronDownIcon } from "../../icons/ChevronDownIcon";
 import { ArrowLeftIcon } from "../../icons/ArrowLeftIcon";
 import TipsIcon from "../../icons/TipsIcon";
@@ -45,6 +44,23 @@ export const TipsPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       isExpanded: false,
     },
     {
+      id: "5",
+      title: "Choose your verb carefully",
+      content: (
+        <>
+          Words like <span className="text-glacier-600">"explain"</span> or{" "}
+          <span className="text-glacier-600">"justify"</span> tend to trigger
+          longer responses and use more energy. When a short answer will do, try{" "}
+          <span className="text-glacier-600">"summarize,"</span>{" "}
+          <span className="text-glacier-600">"list,"</span> or{" "}
+          <span className="text-glacier-600">"classify"</span> instead. (Source:
+          Lancaster University, 2025).
+        </>
+      ),
+      category: "PROMPTS",
+      isExpanded: false,
+    },
+    {
       id: "3",
       title: "Skip polite fillers",
       content: (
@@ -81,8 +97,8 @@ export const TipsPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const toggleTip = (id: string) => {
     setTips(
       tips.map((tip) =>
-        tip.id === id ? { ...tip, isExpanded: !tip.isExpanded } : tip
-      )
+        tip.id === id ? { ...tip, isExpanded: !tip.isExpanded } : tip,
+      ),
     );
   };
 
@@ -97,16 +113,16 @@ export const TipsPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         tips.map((tip, index) =>
           index === 0
             ? { ...tip, isExpanded: true }
-            : { ...tip, isExpanded: false }
-        )
+            : { ...tip, isExpanded: false },
+        ),
       );
     } else {
       setTips(
         tips.map((tip) =>
           tip.category === filter
             ? { ...tip, isExpanded: true }
-            : { ...tip, isExpanded: false }
-        )
+            : { ...tip, isExpanded: false },
+        ),
       );
     }
 
