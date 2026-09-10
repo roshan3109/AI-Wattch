@@ -1,34 +1,51 @@
 {
-    "name": "ai-wattch",
-    "version": "1.1.11",
-    "description": "AI Wattch - Track emissions from AI prompts",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "build:extension": "./build.sh",
-        "dev:extension": "vite --mode development",
-        "watch": "vite build --watch"
+  "name": "ai-wattch",
+  "version": "1.1.12",
+  "description": "AI Wattch - Track emissions from AI prompts",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "build:extension": "./build.sh",
+    "dev:extension": "vite --mode development",
+    "watch": "vite build --watch"
+  },
+  "dependencies": {
+    "@antarctica-global/ai-wattch-constants": "^1.0.2",
+    "d3-shape": "^3.2.0",
+    "lucide-react": "^0.263.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^2.2.0",
+    "@types/chrome": "^0.1.11",
+    "@types/d3-shape": "^3.1.7",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@vitejs/plugin-react": "^4.0.3",
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.5.23",
+    "tailwindcss": "^3.3.3",
+    "typescript": "^5.0.2",
+    "vite": "^4.4.5"
+  },
+  "overrides": {
+    "nanoid": "^3.3.12",
+    "undici": "^7.29.0",
+    "browserslist": "^4.28.7",
+    "brace-expansion": "^2.1.2",
+    "minimatch": "^9.0.7",
+    "glob": "^10.5.0",
+    "@babel/core": "^7.29.6",
+    "picomatch": "^2.3.2",
+    "postcss-selector-parser": "^6.1.3",
+    "vite": {
+      "rollup": "^3.30.0"
     },
-    "dependencies": {
-        "@antarctica-global/ai-wattch-constants": "^1.0.2",
-        "d3-shape": "^3.2.0",
-        "lucide-react": "^0.263.1",
-        "react": "^18.2.0",
-        "react-dom": "^18.2.0"
-    },
-    "devDependencies": {
-        "@crxjs/vite-plugin": "^2.2.0",
-        "@types/chrome": "^0.1.11",
-        "@types/d3-shape": "^3.1.7",
-        "@types/react": "^18.2.15",
-        "@types/react-dom": "^18.2.7",
-        "@vitejs/plugin-react": "^4.0.3",
-        "autoprefixer": "^10.4.14",
-        "postcss": "^8.4.27",
-        "tailwindcss": "^3.3.3",
-        "typescript": "^5.0.2",
-        "vite": "^4.4.5"
+    "@crxjs/vite-plugin": {
+      "rollup": "^2.80.0"
     }
+  }
 }

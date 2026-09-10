@@ -443,6 +443,12 @@ export const LLM_MODELS: ModelInfo[] = [
     modelId: "claude-sonnet-4-6",
   },
   {
+    modelName: "Claude Fable 5.1",
+    detectionName: "Fable 5.1",
+    platform: "claude",
+    modelId: "claude-fable-5.1",
+  },
+  {
     modelName: "Claude Sonnet 5",
     detectionName: "Sonnet 5",
     platform: "claude",
@@ -525,6 +531,12 @@ export const LLM_MODELS: ModelInfo[] = [
     detectionName: "Gemini 3.5 Flash",
     platform: "gemini",
     modelId: "gemini-3.5-flash",
+  },
+  {
+    modelName: "Gemini 3.8 Flash",
+    detectionName: "Flash",
+    platform: "gemini",
+    modelId: "gemini-3.8-flash",
   },
   {
     modelName: "Gemini 3.7 Flash",
