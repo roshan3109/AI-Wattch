@@ -77,11 +77,13 @@ const addMessageSendEventListeners = (e: Node, platform: SupportedPlatform) => {
       e.addEventListener("click", setStartTime);
     }
   } else if (platform === "claude") {
-    const btn = document.querySelector('button[aria-label="Send message"]');
+    const btn = document.querySelector(
+      'button[aria-label="Send message"], button[aria-label="Use voice mode"]',
+    );
     // Or use some selector that best matches it
     if (
       btn &&
-      btn instanceof HTMLElement &&
+      btn instanceof HTMLButtonElement &&
       !btn.getAttribute("data-ai-wattch-send-listener-attached")
     ) {
       btn.setAttribute("data-ai-wattch-send-listener-attached", "true");
@@ -374,12 +376,12 @@ export const createMessageObserver = (
     mutations.forEach((mutation) => {
       // Claude: detect response completion when send button becomes re-enabled
       if (
-        mutation.type === "attributes" &&
+        (mutation.type === "childList" || mutation.type === "attributes") &&
         platform === "claude" &&
         hasStarted &&
-        mutation.target instanceof HTMLElement &&
-        mutation.target.getAttribute("aria-label") === "Send message" &&
-        !mutation.target.hasAttribute("disabled")
+        mutation.target instanceof HTMLButtonElement &&
+        (mutation.target.getAttribute("aria-label") === "Send message" ||
+          mutation.target.getAttribute("aria-label") === "Use voice mode")
       ) {
         hasStarted = false;
         console.log(

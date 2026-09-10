@@ -254,7 +254,6 @@ const detectGeminiModel = (): ModelInfo | null => {
 
 // Detect model for Claude
 const detectClaudeModel = (): ModelInfo | null => {
-  // Try to find model selector or model name
   const container = document.querySelector(
     MODEL_SELECTORS_BUTTON.claude,
   ) as HTMLElement;
@@ -262,44 +261,34 @@ const detectClaudeModel = (): ModelInfo | null => {
   let modelInfo = DEFAULT_DETECTION_MODEL.claude;
 
   if (container) {
-    const target = Array.from(container.querySelectorAll("div")).find(
-      (div: HTMLElement) => {
-        const classList = div.classList;
+    const text = container.textContent?.trim() || "";
 
-        return (
-          (classList.contains("whitespace-nowrap") &&
-            classList.contains("select-none")) ||
-          (classList.contains("tracking-tight") &&
-            classList.contains("whitespace-nowrap") &&
-            classList.contains("select-none"))
-        );
-      },
+    const model = LLM_MODELS.find(
+      (model) =>
+        model.platform === "claude" && text.includes(model.detectionName),
     );
 
-    if (target) {
-      const text = target.textContent?.trim();
-      const model = LLM_MODELS.find(
-        (model) =>
-          text.includes(model.detectionName) && model.platform === "claude",
-      );
-      if (text && model) {
-        modelInfo = model;
-        // updateSelectedModel(model);
-      }
-
-      console.log("Found text:", text);
-    } else {
-      console.log("Target div not found inside container.");
+    if (model) {
+      modelInfo = model;
     }
+
+    console.log("Claude button text:", text);
+    console.log("Detected model:", modelInfo);
   } else {
     console.log("Container not found.");
   }
 
-  updateSelectedModel({ ...modelInfo, autoDetected: true }).then(() => {
+  updateSelectedModel({
+    ...modelInfo,
+    autoDetected: true,
+  }).then(() => {
     console.log("AI Wattch: Model info updated", modelInfo);
   });
-  // Default fallback
-  return { ...modelInfo, autoDetected: true };
+
+  return {
+    ...modelInfo,
+    autoDetected: true,
+  };
 };
 
 // Detect model with platform auto-detection
